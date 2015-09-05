@@ -67,13 +67,11 @@ class Bot {
     let helpMessages = messages.where(e =>
         MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
         e.text.toLowerCase().match(/\bhelp\b/));
-    console.log('MONTANHA' + helpMessages);
 
     return helpMessages
       .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
       .where(channel => {
         if (!helpMessages.isNull) {
-          channel.send('TESTE MONTANHA CHANNEL');
           HelpMessage.displayHelp(channel, this.tableFormatter);
         }
       })
