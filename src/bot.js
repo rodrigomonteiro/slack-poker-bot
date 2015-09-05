@@ -5,6 +5,7 @@ const Slack = require('slack-client');
 const TexasHoldem = require('./texas-holdem');
 const MessageHelpers = require('./message-helpers');
 const PlayerInteraction = require('./player-interaction');
+const HelpMessage = require('./help-message');
 
 const WeakBot = require('../ai/weak-bot');
 const AggroBot = require('../ai/aggro-bot');
@@ -73,6 +74,7 @@ class Bot {
       .where(channel => {
         if (!helpMessages.isNull) {
           channel.send('TESTE MONTANHA CHANNEL');
+          HelpMessage.displayHelp(channel, this.tableFormatter);
         }
       })
       .subscribe();
