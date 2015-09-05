@@ -67,7 +67,7 @@ class Bot {
     return PlayerInteraction.pollPotentialPlayers(messages, channel)
       .reduce((players, id) => {
         let user = this.slack.getUserByID(id);
-        channel.send(`@${user.profiler.real_name} has joined the game.`);
+        channel.send(`@${user.real_name} has joined the game.`);
         
         players.push({id: user.id, name: user.name});
         return players;
