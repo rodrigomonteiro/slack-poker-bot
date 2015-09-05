@@ -67,9 +67,9 @@ class Bot {
     return PlayerInteraction.pollPotentialPlayers(messages, channel)
       .reduce((players, id) => {
         let user = this.slack.getUserByID(id);
-        channel.send(`@${user.real_name} has joined the game.`);
+        channel.send(`${user.name} has joined the game.`);
         
-        players.push({id: user.id, name: user.name});
+        players.push({id: user.id, name: user.name, real: user.real_name});
         return players;
       }, [])
       .flatMap(players => {
@@ -106,7 +106,7 @@ class Bot {
       .subscribe(e => {
         // TODO: Should poll players to make sure they all want to quit.
         let player = this.slack.getUserByID(e.user);
-        channel.send(`${player.name} has decided to quit the game. The game will end after this hand.`);
+        channel.send(`${player.real} has decided to quit the game. The game will end after this hand.`);
         game.quit();
       });
     
