@@ -12,8 +12,8 @@ class HelpMessage {
     let table = [];
 
     let rowHeader = [];
-    rowHeader.push('*Action*');
-    rowHeader.push('*Command*');
+    rowHeader.push('*ACTION*');
+    rowHeader.push('*COMMAND*');
     table.push(rowHeader);
 
     let rowStart = [];
@@ -43,12 +43,12 @@ class HelpMessage {
 
     let rowRaise = [];
     rowRaise.push('To Raise');
-    rowRaise.push('R or Raise / R 10 or Raise 10');
+    rowRaise.push('R or R <value> / Raise or Raise <value>');
     table.push(rowRaise);
 
     let rowBet = [];
     rowBet.push('To Bet');
-    rowBet.push('B or Bet / B 10 or Bet 10');
+    rowBet.push('B or B <value> / Bet or Bet <value>');
     table.push(rowBet);
 
     let rowAllin = [];
