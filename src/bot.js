@@ -50,10 +50,7 @@ class Bot {
         if (this.isPolling) {
           return false;
         } else if (helpMessages) {
-          let dm = this.slack.getDMByName(player.name);
-          console.log('MONTANHA' + dm);
-          dm.send('TESTE MONTANHA DM');
-          channel.send('TESTE MONTANHA DM');
+          channel.send('TESTE MONTANHA CHANNEL');
           return false;
         } else if (this.isGameRunning) {
           channel.send('Another game is in progress, quit that first.');
