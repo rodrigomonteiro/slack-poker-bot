@@ -24,6 +24,7 @@ class Bot {
 
     this.slack.login();
     this.respondToDealMessages();
+    this.respondToHelpMessages();
   }
 
   // Private: Listens for messages directed at this bot that contain the word
@@ -38,19 +39,11 @@ class Bot {
     let dealGameMessages = messages.where(e =>
       MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
         e.text.toLowerCase().match(/\bdeal\b/));
-
-    let helpMessages = messages.where(e =>
-        MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
-        e.text.toLowerCase().match(/\bhelp\b/));
-    console.log('MONTANHA' + helpMessages);
-
+        
     return dealGameMessages
       .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
       .where(channel => {
         if (this.isPolling) {
-          return false;
-        } else if (helpMessages) {
-          channel.send('TESTE MONTANHA CHANNEL');
           return false;
         } else if (this.isGameRunning) {
           channel.send('Another game is in progress, quit that first.');
@@ -59,6 +52,29 @@ class Bot {
         return true;
       })
       .flatMap(channel => this.pollPlayersForGame(messages, channel))
+      .subscribe();
+  }
+
+  // Private: Listens for messages directed at this bot that contain the word
+  // 'help,' and return the commando of the game.
+  //
+  // Returns a {Disposable} that will end this subscription
+  respondToHelpMessages() {
+    let messages = rx.Observable.fromEvent(this.slack, 'message')
+            .where(e => e.type === 'message');
+
+    let helpMessages = messages.where(e =>
+        MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
+        e.text.toLowerCase().match(/\bhelp\b/));
+    console.log('MONTANHA' + helpMessages);
+
+    return helpMessages
+      .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
+      .where(channel => {
+        if (!helpMessages.isNull) {
+          channel.send('TESTE MONTANHA CHANNEL');
+        }
+      })
       .subscribe();
   }
   
