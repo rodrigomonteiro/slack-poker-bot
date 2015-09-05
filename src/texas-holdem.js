@@ -555,8 +555,8 @@ class TexasHoldem {
   // Returns nothing
   postActionToChannel(player, action, postingBlind='') {
     let message = postingBlind === '' ?
-      `${player.name} ${action.name}s` :
-      `${player.name} posts ${postingBlind} of`;
+      `${player.real} ${action.name}s` :
+      `${player.real} posts ${postingBlind} of`;
 
     if (action.name === 'bet')
       message += ` $${action.amount}.`;
