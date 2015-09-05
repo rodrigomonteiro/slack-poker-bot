@@ -42,7 +42,8 @@ class Bot {
     let helpMessages = messages.where(e =>
         MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
         e.text.toLowerCase().match(/\bhelp\b/));
-        
+    console.log('MONTANHA' + helpMessages);
+
     return dealGameMessages
       .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
       .where(channel => {
@@ -50,6 +51,7 @@ class Bot {
           return false;
         } else if (helpMessages) {
           let dm = this.slack.getDMByName(player.name);
+          console.log('MONTANHA' + dm);
           dm.send('TESTE MONTANHA DM');
           channel.send('TESTE MONTANHA DM');
           return false;
