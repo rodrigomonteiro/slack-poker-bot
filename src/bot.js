@@ -38,11 +38,20 @@ class Bot {
     let dealGameMessages = messages.where(e =>
       MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
         e.text.toLowerCase().match(/\bdeal\b/));
+
+    let helpMessages = messages.where(e =>
+        MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
+        e.text.toLowerCase().match(/\bhelp\b/));
         
     return dealGameMessages
       .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
       .where(channel => {
         if (this.isPolling) {
+          return false;
+        } else if (helpMessages) {
+          let dm = this.slack.getDMByName(player.name);
+          dm.send('TESTE MONTANHA DM');
+          channel.send('TESTE MONTANHA DM');
           return false;
         } else if (this.isGameRunning) {
           channel.send('Another game is in progress, quit that first.');
