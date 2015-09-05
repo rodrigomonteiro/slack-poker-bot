@@ -5,6 +5,7 @@ const Slack = require('slack-client');
 const TexasHoldem = require('./texas-holdem');
 const MessageHelpers = require('./message-helpers');
 const PlayerInteraction = require('./player-interaction');
+const HelpMessage = require('./help-message');
 
 const WeakBot = require('../ai/weak-bot');
 const AggroBot = require('../ai/aggro-bot');
@@ -24,6 +25,7 @@ class Bot {
 
     this.slack.login();
     this.respondToDealMessages();
+    this.respondToHelpMessages();
   }
 
   // Private: Listens for messages directed at this bot that contain the word
@@ -51,6 +53,30 @@ class Bot {
         return true;
       })
       .flatMap(channel => this.pollPlayersForGame(messages, channel))
+      .subscribe();
+  }
+
+  // Private: Listens for messages directed at this bot that contain the word
+  // 'help,' and return the commando of the game.
+  //
+  // Returns a {Disposable} that will end this subscription
+  respondToHelpMessages() {
+    let messages = rx.Observable.fromEvent(this.slack, 'message')
+            .where(e => e.type === 'message');
+
+    let helpMessages = messages.where(e =>
+        MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
+        e.text.toLowerCase().match(/\bhelp\b/));
+    console.log('MONTANHA' + helpMessages);
+
+    return helpMessages
+      .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
+      .where(channel => {
+        if (!helpMessages.isNull) {
+          channel.send('TESTE MONTANHA CHANNEL');
+          HelpMessage.displayHelp(channel, this.tableFormatter);
+        }
+      })
       .subscribe();
   }
   
