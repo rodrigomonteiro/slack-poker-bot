@@ -215,17 +215,14 @@ class TexasHoldem {
     let sbPlayer = this.players[this.smallBlindIdx];
     let bbPlayer = this.players[this.bigBlindIdx];
 
-    console.log('[MONTANHA] Rounds ' + this.rounds)
     //increase SB/BB every 5 rounds
-    if (this.rounds % 5 === 0) {
+    if (this.rounds > 1 && this.rounds % 5 === 1) {
         this.smallBlind = this.bigBlind;
         this.bigBlind *= 2;
         this.channel.send("BLINDS INCREASED: SmallBlind = " + this.smallBlind +
                 ", BigBlind = " + this.bigBlind);
     }
 
-    console.log('[MONTANHA] SmallBlind ' + (this.smallBlind * this.rounds));
-    console.log('[MONTANHA] BigBlind ' + (this.bigBlind * this.rounds));
     let sbAction = { name: 'bet', amount: this.smallBlind };
     let bbAction = { name: 'bet', amount: this.bigBlind };
 
