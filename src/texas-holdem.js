@@ -67,11 +67,6 @@ class TexasHoldem {
       Math.floor(Math.random() * this.players.length) :
       dealerButton;
 
-    console.log('[MONTANHA] Rounds ' + this.rounds)
-    console.log('[MONTANHA] BigBlind ' + (this.bigBlind * this.rounds));
-    console.log('[MONTANHA] SmallBlind ' + (this.smallBlind * this.rounds));
-    this.rounds += 1;
-
     rx.Observable.return(true)
       .flatMap(() => this.playHand()
         .flatMap(() => rx.Observable.timer(timeBetweenHands, this.scheduler)))
@@ -219,6 +214,11 @@ class TexasHoldem {
   postBlinds(previousActions) {
     let sbPlayer = this.players[this.smallBlindIdx];
     let bbPlayer = this.players[this.bigBlindIdx];
+
+    console.log('[MONTANHA] Rounds ' + this.rounds)
+    console.log('[MONTANHA] BigBlind ' + (this.bigBlind * this.rounds));
+    console.log('[MONTANHA] SmallBlind ' + (this.smallBlind * this.rounds));
+    this.rounds += 1;
 
     let sbAction = { name: 'bet', amount: this.smallBlind };
     let bbAction = { name: 'bet', amount: this.bigBlind };
