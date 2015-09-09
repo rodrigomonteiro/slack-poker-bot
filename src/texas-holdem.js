@@ -24,6 +24,7 @@ class TexasHoldem {
     this.scheduler = scheduler;
     this.timeToPlay = timeToPlay;
 
+    this.rounds = 1;
     this.smallBlind = 1;
     this.bigBlind = this.smallBlind * 2;
     this.potManager = new PotManager(this.channel, players, this.smallBlind);
@@ -65,6 +66,11 @@ class TexasHoldem {
     this.dealerButton = dealerButton === null ?
       Math.floor(Math.random() * this.players.length) :
       dealerButton;
+
+    console.log('[MONTANHA] Rounds ' + this.rounds)
+    console.log('[MONTANHA] BigBlind ' + (this.bigBlind * this.rounds));
+    console.log('[MONTANHA] SmallBlind ' + (this.smallBlind * this.rounds));
+    this.rounds += 1;
 
     rx.Observable.return(true)
       .flatMap(() => this.playHand()
