@@ -14,8 +14,13 @@ class ScoreMessage {
       request('https://slack.com/api/search.all?token=xoxp-2593466194-2593466200-10613194609-fcc8c7e2a0&query=in%3Apoker%20Congratulations&pretty=1',
         function (error, response, body) {
           if (!error && response.statusCode == 200) {
-            console.log(body);
-            channel.send(body);
+
+
+            var myJson = {'key':'value', 'key2':'value2'};
+            for(var myKey in body) {
+              console.log("[MONTANHA] key:"+myKey+", value:"+myJson[myKey]);
+              channel.send("[MONTANHA] key:"+myKey+", value:"+myJson[myKey]);
+            }
           }
         }
       );
