@@ -12,7 +12,7 @@ class ScoreMessage {
     // Returns nothing
     static displayScore(channel, tableFormatter=`\`\`\``) {
       request.get({
-          url: 'https://slack.com/api/search.all?token=xoxp-2593466194-2593466200-10613194609-fcc8c7e2a0&query=in%3Apoker%20Congratulations&pretty=1',
+          url: 'https://slack.com/api/search.all?token=xoxp-2593466194-2593466200-10613194609-fcc8c7e2a0&query=in%3Apoker%20%20from%3A%40poker_bot%20Congratulations&pretty=1',
           json: true
           },
         function (error, response, body) {
