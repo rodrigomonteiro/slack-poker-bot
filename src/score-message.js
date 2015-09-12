@@ -28,14 +28,19 @@ class ScoreMessage {
               var t1 = matches[line].text.replace("Congratulations ", "");
               var t2 = t1.replace(", you've won!", "");
 
+              channel.send("MONTANHA: " + t2);
+
               if (map.has(t2)) {
+                channel.send("Ta no map");
                 var sc = map.get(t2);
                 map.set(t2, sc + 1);
               } else {
+                channel.send("NÃO ta no map");
                 map.set(t2, 1);
               }
 
               map.forEach(function(value, key) {
+                channel.send("Percorrendo o MAP, KEY: " + key + " VALUE: " + value);
                 let rowStart = [];
                 rowStart.push(key);
                 rowStart.push(value);
