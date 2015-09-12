@@ -12,7 +12,7 @@ class ScoreMessage {
     // Returns nothing
     static displayScore(channel, tableFormatter=`\`\`\``) {
       let table = [];
-      let map = new HashMap();
+      let mapWin = new HashMap();
 
       let rowHeader = [];
       rowHeader.push('*PLAYER*');
@@ -32,27 +32,32 @@ class ScoreMessage {
               var t2 = t1.replace(", you've won!", "");
 
               channel.send("MONTANHA: " + t2);
+              channel.send("QTDE: " + mapWin.count());
 
-              if (map.has(t2)) {
-                var sc = map.get(t2);
+              if (mapWin.has(t2)) {
+                var sc = mapWin.get(t2);
+                mapWin.remove(t2);
                 channel.send("Ta no map: " + sc);
-                map.set(t2, sc + 1);
+                sc += 1
+                mapWin.set(t2, sc);
               } else {
                 channel.send("NÃO ta no map: " + t2);
-                map.set(t2, 1);
+                mapWin.set(t2, 1);
               }
             }
           }
         }
       );
 
-      map.forEach(function(value, key) {
+      mapWin.forEach(function(value, key) {
         channel.send("Percorrendo o MAP, KEY: " + key + " VALUE: " + value);
         let rowStart = [];
         rowStart.push(key);
         rowStart.push(value);
         table.push(rowStart);
       });
+
+      mapWin.clear();
 
       let helpTable = `${tableFormatter}${textTable(table)}${tableFormatter}`;
 
