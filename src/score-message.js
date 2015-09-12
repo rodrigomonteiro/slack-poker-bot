@@ -11,21 +11,23 @@ class ScoreMessage {
     //
     // Returns nothing
     static displayScore(channel, tableFormatter=`\`\`\``) {
-      let table = [];
-      let mapWin = new HashMap();
-
-      let rowHeader = [];
-      rowHeader.push('*PLAYER*');
-      rowHeader.push('*WIN*');
-      table.push(rowHeader);
-
       request.get({
           url: 'https://slack.com/api/search.all?token=xoxp-2593466194-2593466200-10613194609-fcc8c7e2a0&query=in%3Apoker%20Congratulations&pretty=1',
           json: true
           },
         function (error, response, body) {
           if (!error && response.statusCode == 200) {
+            let table = [];
+            let mapWin = new HashMap();
+
+            let rowHeader = [];
+            rowHeader.push('*PLAYER*');
+            rowHeader.push('*WIN*');
+            table.push(rowHeader);
+
             var matches = body.messages.matches;
+
+            channel.send("MATCHES: " + matches.toString());
 
             for(var line in matches) {
               var t1 = matches[line].text.replace("Congratulations ", "");
@@ -45,23 +47,23 @@ class ScoreMessage {
                 mapWin.set(t2, 1);
               }
             }
+
+            mapWin.forEach(function(value, key) {
+              channel.send("Percorrendo o MAP, KEY: " + key + " VALUE: " + value);
+              let rowStart = [];
+              rowStart.push(key);
+              rowStart.push(value);
+              table.push(rowStart);
+            });
+
+            mapWin.clear();
+
+            let helpTable = `${tableFormatter}${textTable(table)}${tableFormatter}`;
+
+            channel.send(helpTable);
           }
         }
       );
-
-      mapWin.forEach(function(value, key) {
-        channel.send("Percorrendo o MAP, KEY: " + key + " VALUE: " + value);
-        let rowStart = [];
-        rowStart.push(key);
-        rowStart.push(value);
-        table.push(rowStart);
-      });
-
-      mapWin.clear();
-
-      let helpTable = `${tableFormatter}${textTable(table)}${tableFormatter}`;
-
-      channel.send(helpTable);
     }
 }
 
