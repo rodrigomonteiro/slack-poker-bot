@@ -4,6 +4,7 @@ const _ = require('underscore-plus');
 const Slack = require('slack-client');
 const TexasHoldem = require('./texas-holdem');
 const MessageHelpers = require('./message-helpers');
+const ScoreMessage = require('./score-message');
 const PlayerInteraction = require('./player-interaction');
 
 const WeakBot = require('../ai/weak-bot');
