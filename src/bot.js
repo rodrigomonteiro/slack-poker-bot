@@ -19,13 +19,13 @@ class Bot {
   }
 
   // Public: Brings this bot online and starts handling messages sent to it.
-  login() {
+  login(tokenAPI) {
     rx.Observable.fromEvent(this.slack, 'open')
       .subscribe(() => this.onClientOpened());
 
     this.slack.login();
     this.respondToDealMessages();
-    this.respondToScoreMessages();
+    this.respondToScoreMessages(tokenAPI);
   }
 
   // Private: Listens for messages directed at this bot that contain the word
@@ -60,7 +60,7 @@ class Bot {
   // 'score,' and poll players in response.
   //
   // Returns a {Disposable} that will end this subscription
-  respondToScoreMessages() {
+  respondToScoreMessages(tokenAPI) {
     let messages = rx.Observable.fromEvent(this.slack, 'message')
             .where(e => e.type === 'message');
 
@@ -73,7 +73,7 @@ class Bot {
       .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
       .where(channel => {
         if (!scoreGameMessages.isNull) {
-          ScoreMessage.displayScore(channel, this.tableFormatter);
+          ScoreMessage.displayScore(tokenAPI, channel, this.tableFormatter);
         }
       })
       .subscribe();
