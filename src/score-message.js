@@ -18,7 +18,7 @@ class ScoreMessage {
       rowHeader.push('*WIN*');
       table.push(rowHeader);
 
-      request.get(
+      request.get({
           url: 'https://slack.com/api/search.all?token=xoxp-2593466194-2593466200-10613194609-fcc8c7e2a0&query=in%3Apoker%20Congratulations&pretty=1',
           json: true
           },
