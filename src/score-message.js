@@ -26,22 +26,20 @@ class ScoreMessage {
           if (!error && response.statusCode == 200) {
             var map = new HashMap();
 
-            channel.send("BODY: " + body);
-            channel.send("MESSAGES: " + body.messages);
-            channel.send("MATCHES: " + body.messages.matches);
-            
             var matches = body.messages.matches;
 
             for(var line in matches) {
               var t1 = matches[line].text.replace("Congratulations ", "");
               var t2 = t1.replace(", you've won!", "");
 
+              channel.send("MONTANHA: " + t2);
+
               if (map.has(t2)) {
-                channel.send("Ta no map");
                 var sc = map.get(t2);
+                channel.send("Ta no map: " + sc);
                 map.set(t2, sc + 1);
               } else {
-                channel.send("NÃO ta no map");
+                channel.send("NÃO ta no map: " + t2);
                 map.set(t2, 1);
               }
 
