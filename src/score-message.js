@@ -12,6 +12,7 @@ class ScoreMessage {
     // Returns nothing
     static displayScore(channel, tableFormatter=`\`\`\``) {
       let table = [];
+      let map = new HashMap();
 
       let rowHeader = [];
       rowHeader.push('*PLAYER*');
@@ -24,8 +25,6 @@ class ScoreMessage {
           },
         function (error, response, body) {
           if (!error && response.statusCode == 200) {
-            var map = new HashMap();
-
             var matches = body.messages.matches;
 
             for(var line in matches) {
@@ -42,18 +41,18 @@ class ScoreMessage {
                 channel.send("NÃO ta no map: " + t2);
                 map.set(t2, 1);
               }
-
-              map.forEach(function(value, key) {
-                channel.send("Percorrendo o MAP, KEY: " + key + " VALUE: " + value);
-                let rowStart = [];
-                rowStart.push(key);
-                rowStart.push(value);
-                table.push(rowStart);
-              });
             }
           }
         }
       );
+
+      map.forEach(function(value, key) {
+        channel.send("Percorrendo o MAP, KEY: " + key + " VALUE: " + value);
+        let rowStart = [];
+        rowStart.push(key);
+        rowStart.push(value);
+        table.push(rowStart);
+      });
 
       let helpTable = `${tableFormatter}${textTable(table)}${tableFormatter}`;
 
