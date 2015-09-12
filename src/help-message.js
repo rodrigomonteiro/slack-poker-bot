@@ -26,6 +26,11 @@ class HelpMessage {
     rowQuit.push('@bot_name: quit game');
     table.push(rowQuit);
 
+    let rowScore = [];
+    rowScore.push('To Show the game score');
+    rowScore.push('@bot_name: score');
+    table.push(rowScore);
+
     let rowCheck = [];
     rowCheck.push('To Check');
     rowCheck.push('C or Check');

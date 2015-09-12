@@ -4,6 +4,7 @@ const _ = require('underscore-plus');
 const Slack = require('slack-client');
 const TexasHoldem = require('./texas-holdem');
 const MessageHelpers = require('./message-helpers');
+const ScoreMessage = require('./score-message');
 const PlayerInteraction = require('./player-interaction');
 const HelpMessage = require('./help-message');
 
@@ -19,13 +20,14 @@ class Bot {
   }
 
   // Public: Brings this bot online and starts handling messages sent to it.
-  login() {
+  login(tokenAPI) {
     rx.Observable.fromEvent(this.slack, 'open')
       .subscribe(() => this.onClientOpened());
 
     this.slack.login();
     this.respondToDealMessages();
     this.respondToHelpMessages();
+    this.respondToScoreMessages(tokenAPI);
   }
 
   // Private: Listens for messages directed at this bot that contain the word
@@ -73,6 +75,29 @@ class Bot {
       .where(channel => {
         if (!helpMessages.isNull) {
           HelpMessage.displayHelp(channel, this.tableFormatter);
+        }
+      })
+      .subscribe();
+  }
+
+  // Private: Listens for messages directed at this bot that contain the word
+  // 'score,' and return the players and number of games won
+  //
+  // Returns a {Disposable} that will end this subscription
+  respondToScoreMessages(tokenAPI) {
+    let messages = rx.Observable.fromEvent(this.slack, 'message')
+            .where(e => e.type === 'message');
+
+    // Messages directed at the bot that contain the word "score" are valid
+    let scoreGameMessages = messages.where(e =>
+        MessageHelpers.containsUserMention(e.text, this.slack.self.id) &&
+        e.text.toLowerCase().match(/\bscore\b/));
+
+    return scoreGameMessages
+      .map(e => this.slack.getChannelGroupOrDMByID(e.channel))
+      .where(channel => {
+        if (!scoreGameMessages.isNull) {
+          ScoreMessage.displayScore(tokenAPI, channel, this.tableFormatter);
         }
       })
       .subscribe();
