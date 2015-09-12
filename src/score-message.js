@@ -25,13 +25,16 @@ class ScoreMessage {
         function (error, response, body) {
           if (!error && response.statusCode == 200) {
             var map = new HashMap();
+
+            channel.send("BODY: " + body);
+            channel.send("MESSAGES: " + body.messages);
+            channel.send("MATCHES: " + body.messages.matches);
+            
             var matches = body.messages.matches;
 
             for(var line in matches) {
               var t1 = matches[line].text.replace("Congratulations ", "");
               var t2 = t1.replace(", you've won!", "");
-
-              channel.send("MONTANHA: " + t2);
 
               if (map.has(t2)) {
                 channel.send("Ta no map");
