@@ -7,6 +7,7 @@ const MessageHelpers = require('./message-helpers');
 const ScoreMessage = require('./score-message');
 const PlayerInteraction = require('./player-interaction');
 const HelpMessage = require('./help-message');
+const request = require('request');
 
 const WeakBot = require('../ai/weak-bot');
 const AggroBot = require('../ai/aggro-bot');
@@ -28,6 +29,7 @@ class Bot {
     this.respondToDealMessages();
     this.respondToHelpMessages();
     this.respondToScoreMessages(tokenAPI);
+    this.requestURLrepeatedly();
   }
 
   // Private: Listens for messages directed at this bot that contain the word
@@ -101,6 +103,18 @@ class Bot {
         }
       })
       .subscribe();
+  }
+
+  // Private: calling URL repeatedly, to keep the APP alive
+  //
+  // Returns a {Disposable} that will end this subscription
+  requestURLrepeatedly() {
+    return rx.Scheduler.default.schedulePeriodic(
+      30000, /* 600000 10 min */
+      function () {
+        request('https://poker-moip.herokuapp.com/');
+      }
+    );
   }
   
   // Private: Polls players to join the game, and if we have enough, starts an
