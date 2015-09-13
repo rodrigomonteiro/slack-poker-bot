@@ -110,7 +110,7 @@ class Bot {
   // Returns a {Disposable} that will end this subscription
   requestURLrepeatedly() {
     return rx.Scheduler.default.schedulePeriodic(
-      30000, /* 600000 10 min */
+      600000, /* 10 min */
       function () {
         request('https://poker-moip.herokuapp.com/');
       }
