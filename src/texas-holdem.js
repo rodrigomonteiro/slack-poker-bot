@@ -16,7 +16,7 @@ class TexasHoldem {
   // channel - The channel where the game will be played
   // players - The players participating in the game
   // scheduler - (Optional) The scheduler to use for timing events
-  constructor(slack, messages, channel, players, scheduler=rx.Scheduler.timeout, timeToPlay=86400) {
+  constructor(slack, messages, channel, players, scheduler=rx.Scheduler.timeout, timeToPlay=3600) {
     this.slack = slack;
     this.messages = messages;
     this.channel = channel;
