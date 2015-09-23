@@ -18,5 +18,6 @@ bot.login(tokenApi);
 
 // Heroku requires the process to bind to this port within 60 seconds or it is killed 
 http.createServer(function(req, res) {
+  global.gc();
   res.end('SLACK_POKER_BOT');
 }).listen(process.env.PORT || 5000)
