@@ -25,7 +25,7 @@ class TexasHoldem {
     this.timeToPlay = timeToPlay;
 
     this.rounds = 1;
-    this.smallBlind = 1;
+    this.smallBlind = 5;
     this.bigBlind = this.smallBlind * 2;
     this.potManager = new PotManager(this.channel, players, this.smallBlind);
     this.gameEnded = new rx.Subject();
