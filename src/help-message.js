@@ -14,17 +14,24 @@ class HelpMessage {
     let rowHeader = [];
     rowHeader.push('*ACTION*');
     rowHeader.push('*COMMAND*');
+    rowHeader.push('*OPTION*');
     table.push(rowHeader);
 
     let rowStart = [];
     rowStart.push('To Start a game');
-    rowStart.push('@bot_name: deal');
+    rowStart.push('@<your-bot-name>: deal');
     table.push(rowStart);
 
     let rowQuit = [];
     rowQuit.push('To Quit a game');
-    rowQuit.push('@bot_name: quit game');
+    rowQuit.push('@<your-bot-name>: quit game');
     table.push(rowQuit);
+
+    let rowConfig = [];
+    rowConfig.push('To config some bot options');
+    rowConfig.push('@<your-bot-name>: config <name-of-option>=<value>');
+    rowConfig.push('timeout: Sets the duration (in sec) before a player times out. 0 = no timeout.');
+    table.push(rowConfig);
 
     let rowCheck = [];
     rowCheck.push('To Check');
