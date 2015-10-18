@@ -18,17 +18,18 @@ bot.login();
 // Heroku requires the process to bind to this port within 60 seconds or it is killed 
 http.createServer(function(req, res) {
 
-  //mongo.Db.connect('mongodb://teste:teste@ds041144.mongolab.com:41144/heroku_lxn509sn', function (err, db) {
-  //  db.collection('test_init', function(er, collection) {
-  //    var dateNow = new Date()
-  //    collection.insert({'hora': dateNow}, {safe: true}, function(er,rs) {
-  //    });
-  //  });
-  //});
-
-  var MongoClient = require('mongodb').MongoClient;
+  var mongo = require('mongodb');
+  var MongoClient = mongo.MongoClient;
   //var ObjectId = require('mongodb').ObjectID;
   var url = 'mongodb://heroku_q2m8chsx:r28LabJ!8@ds041154.mongolab.com:41154/heroku_q2m8chsx';
+
+  mongo.Db.connect(url, function (err, db) {
+    db.collection('test_init', function(er, collection) {
+      var dateNow = new Date()
+      collection.insert({"hora": dateNow}, {safe: true}, function(er,rs) {
+      });
+    });
+  });
 
   var insertDocument = function(db, callback) {
     db.collection('test_init').insertOne( {
@@ -41,7 +42,6 @@ http.createServer(function(req, res) {
   };
 
   MongoClient.connect(url, function(err, db) {
-    console.log("[CONNECT]" + err);
     insertDocument(db, function() {
       db.close();
     });
