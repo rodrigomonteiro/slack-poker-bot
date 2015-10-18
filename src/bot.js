@@ -26,8 +26,32 @@ class Bot {
     rx.Observable.fromEvent(this.slack, 'open')
       .subscribe(() => this.onClientOpened());
 
+    this.testeMongo();
+
     this.slack.login();
     this.respondToMessages();
+  }
+
+  testeMongo() {
+    var MongoClient = require('mongodb').MongoClient;
+    //var ObjectId = require('mongodb').ObjectID;
+    var url = 'mongodb://heroku_q2m8chsx:r28LabJ!8@ds041154.mongolab.com:41154/heroku_q2m8chsx';
+
+    var insertDocument = function(db, callback) {
+      db.collection('test_init').insertOne( {
+        "acesso" : new Date()
+      }, function(err, result) {
+        console.log("[INSERT]" + err);
+        console.log("Inserted a document into the test_init collection.");
+        callback(result);
+      });
+    };
+
+    MongoClient.connect(url, function(err, db) {
+      insertDocument(db, function() {
+        db.close();
+      });
+    });
   }
 
   // Private: Listens for messages directed at this bot that contain the word
