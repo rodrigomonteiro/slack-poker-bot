@@ -23,25 +23,43 @@ class PlayerStatus {
     for (let idx = 0; idx < players.length; idx++) {
       let row = [];
 
+      var json = "{";
+
+//    "hand": [ { "3": ":clubs:" }, { "5": ":clubs:" } ],
+
+
       let player = players[idx];
+      var jIdx = idx;
       let turnIndicator = player === actingPlayer ? '→ ' : '  ';
+      var jActing = player === actingPlayer;
       row.push(`${turnIndicator}${player.name}`);
+      var jName = player.name;
       row.push(`$${player.chips}`);
+      var jChips = player.chips;
 
       let handIndicator = player.isInHand ? '🂠' : ' ';
       row.push(handIndicator);
+      var jIsInHand = player.isInHand;
 
       let dealerText = idx === dealerButton ? 'Ⓓ' : null;
+      var jDealer = idx === dealerButton;
       let smallBlindText = idx === smallBlind ? 'Ⓢ' : null;
+      var jSmall = idx === dealerButton;
       let bigBlindText = idx === bigBlind ? 'Ⓑ' : null;
+      var jBig = idx === dealerButton;
       let positionIndicator = bigBlindText || smallBlindText || dealerText || ' ';
       row.push(positionIndicator);
 
+      var jLastAction;
       if (player.lastAction) {
         let actionIndicator = player.lastAction.name;
+        var jAcName = player.lastAction.name;
+        var jAcAmount = 0;
         if (player.lastAction.amount > 0) {
           actionIndicator += ` $${player.lastAction.amount}`;
+          jAcAmount = player.lastAction.amount;
         }
+        jLastAction = '{ ' + jAcName + ' : ' + jAcAmount + ' }';
         row.push(actionIndicator);
       } else {
         row.push('');
