@@ -36,7 +36,7 @@ class Bot {
     //var connect = require('connect');
     var MongoClient = require('mongodb').MongoClient;
     //var ObjectId = require('mongodb').ObjectID;
-    var url = 'mongodb://heroku_q2m8chsx:r28LabJ!8@ds041154.mongolab.com:41154/heroku_q2m8chsx';
+    var url = 'mongodb://heroku_q2m8chsx:p9kucehoa608tgf594fk3jmjae@ds041154.mongolab.com:41154/heroku_q2m8chsx';
 
     var insertDocument = function(db, callback) {
       var collection = db.collection('test_init');
