@@ -17,7 +17,7 @@ bot.login();
 
 // Heroku requires the process to bind to this port within 60 seconds or it is killed 
 http.createServer(function(req, res) {
-  
+
   //mongo.Db.connect('mongodb://teste:teste@ds041144.mongolab.com:41144/heroku_lxn509sn', function (err, db) {
   //  db.collection('test_init', function(er, collection) {
   //    var dateNow = new Date()
@@ -34,14 +34,12 @@ http.createServer(function(req, res) {
     db.collection('test_init').insertOne( {
       "acesso" : new Date()
     }, function(err, result) {
-      assert.equal(err, null);
       console.log("Inserted a document into the test_init collection.");
       callback(result);
     });
   };
 
   MongoClient.connect(url, function(err, db) {
-    assert.equal(null, err);
     insertDocument(db, function() {
       db.close();
     });
