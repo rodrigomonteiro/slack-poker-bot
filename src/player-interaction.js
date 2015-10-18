@@ -44,7 +44,7 @@ class PlayerInteraction {
   // Returns an {Observable} indicating the action the player took. If time
   // expires, a 'timeout' action is returned.
   static getActionForPlayer(messages, channel, player, previousActions,
-    scheduler=rx.Scheduler.timeout, timeout=86400) {
+    scheduler=rx.Scheduler.timeout, timeout=30) {
     let availableActions = PlayerInteraction.getAvailableActions(player, previousActions);
     let formatMessage = t => PlayerInteraction.buildActionMessage(player, availableActions, t);
     

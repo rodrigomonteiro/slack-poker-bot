@@ -17,13 +17,12 @@ class TexasHoldem {
   // channel - The channel where the game will be played
   // players - The players participating in the game
   // scheduler - (Optional) The scheduler to use for timing events
-  constructor(slack, messages, channel, players, scheduler=rx.Scheduler.timeout, timeToPlay=3600) {
+  constructor(slack, messages, channel, players, scheduler=rx.Scheduler.timeout) {
     this.slack = slack;
     this.messages = messages;
     this.channel = channel;
     this.players = players;
     this.scheduler = scheduler;
-    this.timeToPlay = timeToPlay;
 
     this.rounds = 1;
     this.smallBlind = 5;
@@ -162,7 +161,7 @@ class TexasHoldem {
     // can occur after any player action.
     let queryPlayers = rx.Observable.fromArray(this.orderedPlayers)
       .where((player) => player.isInHand && !player.isAllIn)
-      .concatMap((player) => this.deferredActionForPlayer(player, previousActions, roundEnded, this.timeToPlay))
+      .concatMap((player) => this.deferredActionForPlayer(player, previousActions, roundEnded))
       .repeat()
       .takeUntil(roundEnded)
       .publish();
@@ -236,7 +235,7 @@ class TexasHoldem {
   // timeToPause - (Optional) The time to wait before polling, in ms
   //
   // Returns an {Observable} containing the player's action
-  deferredActionForPlayer(player, previousActions, roundEnded, timeToPlay, timeToPause=1000) {
+  deferredActionForPlayer(player, previousActions, roundEnded, timeToPause=1000) {
     return rx.Observable.defer(() => {
 
       // Display player position and who's next to act before polling.
@@ -250,7 +249,7 @@ class TexasHoldem {
         this.actingPlayer = player;
 
         return PlayerInteraction.getActionForPlayer(this.messages, this.channel,
-          player, previousActions, this.scheduler, timeToPlay)
+          player, previousActions, this.scheduler, this.timeout)
           .do(action => this.onPlayerAction(player, action, previousActions, roundEnded));
         });
     });
