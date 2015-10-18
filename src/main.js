@@ -1,5 +1,6 @@
 require('babel/register');
 var http = require('http');
+var mongo = require('mongodb');
 
 try {
   var fs = require('fs');
@@ -16,5 +17,13 @@ bot.login();
 
 // Heroku requires the process to bind to this port within 60 seconds or it is killed 
 http.createServer(function(req, res) {
+  mongo.Db.connect('mongodb://teste:teste@ds041144.mongolab.com:41144/heroku_lxn509sn', function (err, db) {
+    db.collection('test_init', function(er, collection) {
+      var dateNow = new Date()
+      collection.insert({'hora': dateNow}, {safe: true}, function(er,rs) {
+      });
+    });
+  });
+
   res.end('SLACK_POKER_BOT');
 }).listen(process.env.PORT || 5000)
