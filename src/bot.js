@@ -33,14 +33,15 @@ class Bot {
   }
 
   testeMongo() {
+    //var connect = require('connect');
     var MongoClient = require('mongodb').MongoClient;
     //var ObjectId = require('mongodb').ObjectID;
     var url = 'mongodb://heroku_q2m8chsx:r28LabJ!8@ds041154.mongolab.com:41154/heroku_q2m8chsx';
 
     var insertDocument = function(db, callback) {
-      db.collection('test_init').insertOne( {
-        "acesso" : new Date()
-      }, function(err, result) {
+      var collection = db.collection('test_init');
+      // Insert a document
+      collection.insertOne( {"acesso" : new Date()}, function(err, result) {
         console.log("[INSERT]" + err);
         console.log("Inserted a document into the test_init collection.");
         callback(result);
