@@ -29,7 +29,7 @@ class HelpMessage {
 
     let rowScore = [];
     rowScore.push('To Show the game score');
-    rowScore.push('@bot_name: score');
+    rowScore.push('@<bot-name>: score');
     table.push(rowScore);
 
     let rowConfig = [];
