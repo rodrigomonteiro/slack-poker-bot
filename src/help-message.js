@@ -19,12 +19,12 @@ class HelpMessage {
 
     let rowStart = [];
     rowStart.push('To Start a game');
-    rowStart.push('@<your-bot-name>: deal');
+    rowStart.push('@<bot-name>: deal');
     table.push(rowStart);
 
     let rowQuit = [];
     rowQuit.push('To Quit a game');
-    rowQuit.push('@<your-bot-name>: quit game');
+    rowQuit.push('@<bot-name>: quit game');
     table.push(rowQuit);
 
     let rowScore = [];
