@@ -34,12 +34,14 @@ http.createServer(function(req, res) {
     db.collection('test_init').insertOne( {
       "acesso" : new Date()
     }, function(err, result) {
+      console.log("[INSERT]" + err);
       console.log("Inserted a document into the test_init collection.");
       callback(result);
     });
   };
 
   MongoClient.connect(url, function(err, db) {
+    console.log("[CONNECT]" + err);
     insertDocument(db, function() {
       db.close();
     });
