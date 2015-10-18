@@ -29,9 +29,15 @@ class HelpMessage {
 
     let rowConfig = [];
     rowConfig.push('To config some bot options');
-    rowConfig.push('@<your-bot-name>: config <name-of-option>=<value>');
-    rowConfig.push('timeout: Sets the duration (in sec) before a player times out. 0 = no timeout.');
+    rowConfig.push('@<bot-name>: config <option>=<value>');
+    rowConfig.push('timeout: The duration of each move (in sec).');
     table.push(rowConfig);
+
+    let rowConfig1 = [];
+    rowConfig1.push('');
+    rowConfig1.push('');
+    rowConfig1.push('0 = no timeout.');
+    table.push(rowConfig1);
 
     let rowCheck = [];
     rowCheck.push('To Check');
