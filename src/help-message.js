@@ -28,9 +28,9 @@ class HelpMessage {
     table.push(rowQuit);
 
     let rowConfig = [];
-    rowConfig.push('To config some bot options');
+    rowConfig.push('To config bot options');
     rowConfig.push('@<bot-name>: config <option>=<value>');
-    rowConfig.push('timeout: The duration of each move (in sec).');
+    rowConfig.push('timeout: Duration of each move (in sec).');
     table.push(rowConfig);
 
     let rowConfig1 = [];
